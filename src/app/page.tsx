@@ -62,6 +62,53 @@ export default function Home() {
     setHasDownloaded(true);
   };
 
+  const handleShare = () => {
+    if (hasDownloaded) return;
+
+    const cardCanvas = document.querySelector('#cardCanvas') as HTMLCanvasElement;
+    const teamCanvas = document.querySelector('#menu') as HTMLCanvasElement;
+    if (!cardCanvas || !teamCanvas) return;
+
+    const teamWidth = teamCanvas.width;
+    const cardAspect = cardCanvas.width / cardCanvas.height;
+    const cardHeight = teamWidth / cardAspect;
+
+    const combinedCanvas = document.createElement('canvas');
+    combinedCanvas.width = teamWidth;
+    combinedCanvas.height = cardHeight + teamCanvas.height;
+
+    const ctx = combinedCanvas.getContext('2d')!;
+    ctx.drawImage(cardCanvas, 0, 0, cardCanvas.width, cardCanvas.height, 0, 0, teamWidth, cardHeight);
+    ctx.drawImage(teamCanvas, 0, cardHeight, teamWidth, teamCanvas.height);
+
+    combinedCanvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      const file = new File([blob], 'poke-fm.png', { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'pokefm',
+            text: 'check my pokefm chart!',
+          });
+          setHasDownloaded(true);
+        } catch (err) {
+          console.error('erro ao compartilhar:', err);
+        }
+      } else {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'pokefm.png';
+        link.click();
+        URL.revokeObjectURL(link.href);
+        setHasDownloaded(true);
+      }
+    });
+  };
+
+
   return (
     <div className="flex flex-col min-h-screen font-[PokemonXY] text-white">
 
@@ -88,7 +135,7 @@ export default function Home() {
             className={`px-4 py-2 text-base rounded-md focus:outline-none ${username.trim()
               ? 'bg-red-500 hover:bg-red-600 cursor-pointer'
               : 'bg-gray-500 cursor-not-allowed'
-            }`}
+              }`}
           >
             submit!!!
           </button>
@@ -123,6 +170,13 @@ export default function Home() {
             >
               save!!!
             </button>
+
+            <button
+              onClick={handleShare}
+              className="w-12 h-12 text-white bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 focus:outline-none cursor-pointer"
+            >
+              ➦
+            </button>
           </div>
         )}
       </div>
@@ -132,7 +186,7 @@ export default function Home() {
           <h3 className="font-[PokemonXY]">
             nintendo does not endorse or sponsor this project{" "}
             <span className="inline-block align-middle">
-              <Credits/>
+              <Credits />
             </span>
           </h3>
         </div>
