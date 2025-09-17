@@ -165,19 +165,19 @@ export default function Home() {
             </div>
 
             <div className="flex gap-2 mb-4">
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 my-2 mt-4 text-white bg-red-500 rounded-md hover:bg-red-600 cursor-pointer"
-            >
-              save!!!
-            </button>
+              <button
+                onClick={handleSave}
+                className="px-3 py-1 text-white bg-red-500 rounded-md hover:bg-red-600 cursor-pointer"
+              >
+                save!!!
+              </button>
 
-            <button
-              onClick={handleShare}
-              className="w-12 h-12 text-white bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 focus:outline-none cursor-pointer"
-            >
-              ➦
-            </button>
+              <button
+                onClick={handleShare}
+                className="w-8 h-8 text-white bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 focus:outline-none cursor-pointer"
+              >
+                ➦
+              </button>
             </div>
           </div>
         )}
