@@ -63,7 +63,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen font-[PokemonXY] text-white bg-gray-900">
+    <div className="flex flex-col min-h-screen font-[PokemonXY] text-white">
 
       <h2 className="text-2xl font-bold text-center mt-4">
         poke.fm
