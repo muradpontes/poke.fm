@@ -164,6 +164,7 @@ export default function Home() {
               <Team username={submittedUsername} data={userData} />
             </div>
 
+            <div className="flex gap-2 mb-4">
             <button
               onClick={handleSave}
               className="px-4 py-2 my-2 mt-4 text-white bg-red-500 rounded-md hover:bg-red-600 cursor-pointer"
@@ -177,6 +178,7 @@ export default function Home() {
             >
               ➦
             </button>
+            </div>
           </div>
         )}
       </div>
