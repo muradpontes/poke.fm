@@ -134,7 +134,7 @@ export default function Home() {
             disabled={!username.trim()}
             className={`px-4 py-2 text-base rounded-md focus:outline-none ${username.trim()
               ? 'bg-red-500 hover:bg-red-600 cursor-pointer'
-              : 'bg-gray-500 cursor-not-allowed'
+              : 'bg-gray-500'
               }`}
           >
             submit!!!
