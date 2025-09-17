@@ -1,103 +1,148 @@
-import Image from "next/image";
+'use client';
+import { useState } from "react";
+import Card from "@/components/Card";
+import Team from "@/components/Team";
+import WhatsNew from "@/components/WhatsNew";
+import Credits from "@/components/Credits";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing {" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [hasDownloaded, setHasDownloaded] = useState(false);
+  const [username, setUsername] = useState("");
+  const [submittedUsername, setSubmittedUsername] = useState("");
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const handleSubmit = async () => {
+    if (!username.trim()) return;
+    setSubmittedUsername(username.trim());
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/usuario?user=${encodeURIComponent(username.trim())}`);
+
+      if (!res.ok) throw new Error("user not found");
+
+      const data = await res.json();
+      setUserData(data);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setUserData(null);
+      setError("user not found");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = () => {
+    if (hasDownloaded) return;
+
+    const cardCanvas = document.querySelector('#cardCanvas') as HTMLCanvasElement;
+    const teamCanvas = document.querySelector('#menu') as HTMLCanvasElement;
+    if (!cardCanvas || !teamCanvas) return;
+
+    const teamWidth = teamCanvas.width;
+    const cardAspect = cardCanvas.width / cardCanvas.height;
+    const cardHeight = teamWidth / cardAspect;
+
+    const combinedCanvas = document.createElement('canvas');
+    combinedCanvas.width = teamWidth;
+    combinedCanvas.height = cardHeight + teamCanvas.height;
+
+    const ctx = combinedCanvas.getContext('2d')!;
+    ctx.drawImage(cardCanvas, 0, 0, cardCanvas.width, cardCanvas.height, 0, 0, teamWidth, cardHeight);
+    ctx.drawImage(teamCanvas, 0, cardHeight, teamWidth, teamCanvas.height);
+
+    const link = document.createElement('a');
+    link.download = 'poke-fm.png';
+    link.href = combinedCanvas.toDataURL('image/png');
+    link.click();
+
+    setHasDownloaded(true);
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen font-[PokemonXY] text-white bg-gray-900">
+
+      <h2 className="text-2xl font-bold text-center mt-4">
+        poke.fm
+      </h2>
+
+      <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
+        <div id="inputContainer" className="flex justify-center gap-2 mx-auto my-4 px-4">
+          <input
+            type="text"
+            id="usernameInput"
+            placeholder="last.fm username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            className="flex-1 max-w-[8rem] px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-800 text-white placeholder-gray-400"
+          />
+
+          <button
+            id="fetchBtn"
+            onClick={handleSubmit}
+            disabled={!username.trim()}
+            className={`px-4 py-2 text-base rounded-md focus:outline-none ${username.trim()
+              ? 'bg-red-500 hover:bg-red-600 cursor-pointer'
+              : 'bg-gray-500 cursor-not-allowed'
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            submit!!!
+          </button>
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+        {loading && (
+          <p className="text-center mb-4 text-gray-500">
+            loading...
+          </p>
+        )}
+
+        {!loading && error && (
+          <p className="text-center mb-4 text-red-500">
+            {error}
+          </p>
+        )}
+
+        {submittedUsername && userData && (
+          <div className="flex flex-col items-center">
+            <div className="w-full max-w-3xl">
+              <Card username={submittedUsername} data={userData} />
+            </div>
+
+            <div className="w-full max-w-3xl">
+              <Team username={submittedUsername} data={userData} />
+            </div>
+
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 my-2 mt-4 text-white bg-red-500 rounded-md hover:bg-red-600 cursor-pointer"
+            >
+              save!!!
+            </button>
+          </div>
+        )}
+      </div>
+
+      <footer className="mt-auto text-center py-5 text-sm text-gray-400">
+        <div className="text-center my-4">
+          <h3 className="font-[PokemonXY]">
+            nintendo does not endorse or sponsor this project{" "}
+            <span className="inline-block align-middle">
+              <Credits/>
+            </span>
+          </h3>
+        </div>
+        ©{" "}
+        <a href="https://www.last.fm/user/ohhhio" className="text-red-500 hover:text-red-400" target="_blank" rel="noopener noreferrer">
+          ohhhio
+        </a>{" "}
+        {new Date().getFullYear()}
       </footer>
+
     </div>
   );
 }
