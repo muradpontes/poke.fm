@@ -14,7 +14,7 @@ export default function Credits() {
 
             {open && (
                 <div
-                    className="fixed inset-0 bg-gray-500/50 bg-opacity-50 flex items-center justify-center z-50"
+                    className="fixed inset-0 bg-[var(--background)] bg-opacity-50 flex items-center justify-center z-50"
                     onClick={() => setOpen(false)}
                 >
                     <div
