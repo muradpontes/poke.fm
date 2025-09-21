@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.12.2",
     "gifuct-js": "^2.1.2",
     "kofi-button": "^1.1.1",

@@ -3,9 +3,14 @@
 @font-face {
   font-family: "PokemonXY";
   src: url("/font.ttf") format("truetype");
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #404040;
@@ -13,8 +18,10 @@
 }
 
 body {
+  @apply font-sans;
   background: var(--background);
   color: var(--foreground);
+  font-family: "PokemonXY", sans-serif !important;
 }
 
 #dropdown::-webkit-scrollbar {

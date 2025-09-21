@@ -5,6 +5,7 @@ import { parseGIF, decompressFrames } from "gifuct-js";
 interface UserInfo {
   artist_count: any;
   name: string;
+  realname?: string;
   playcount: number;
   registered: { unixtime: string };
   image: { size: string; '#text': string }[];
@@ -29,6 +30,7 @@ interface Props {
 export default function Card({ username, data }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [useAltCard, setUseAltCard] = useState(false);
+  const [useRealName, setUseRealName] = useState(false);
   const [randomId, setRandomId] = useState<number | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState("7day");
   const [superUsers, setSuperUsers] = useState<string[]>([]);
@@ -143,7 +145,8 @@ export default function Card({ username, data }: Props) {
 
       ctx.font = '36px PokemonXY';
       ctx.fillStyle = 'black';
-      ctx.fillText(userData.name.toUpperCase(), 185, 171);
+      const displayName = useRealName && userData.realname ? userData.realname : userData.name;
+      ctx.fillText(displayName.toUpperCase(), 185, 171);
       ctx.fillText(
         lowerUsername === "ohhhio" ? "00001" : String(randomId),
         488,
@@ -207,7 +210,9 @@ export default function Card({ username, data }: Props) {
     };
 
     drawCard();
-  }, [data, randomId, useAltCard, selectedPeriod, superUsers]);
+  }, [data, randomId, useAltCard, useRealName, selectedPeriod, superUsers]);
+
+  const realNameAvailable = !!data?.userInfo?.realname;
 
   return (
     <div className="text-center">
@@ -229,6 +234,15 @@ export default function Card({ username, data }: Props) {
           className="px-4 py-2 text-base mb-4 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none cursor-pointer font-[PokemonXY]"
         >
           {useAltCard ? 'color' : 'color'}
+        </button>
+        <button
+          onClick={() => setUseRealName(!useRealName)}
+          disabled={!realNameAvailable}
+          className={`px-4 py-2 text-base mb-4 text-white rounded-md focus:outline-none cursor-pointer font-[PokemonXY] ${
+            realNameAvailable ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-600 cursor-not-allowed'
+          }`}
+        >
+          real name
         </button>
       </div>
 

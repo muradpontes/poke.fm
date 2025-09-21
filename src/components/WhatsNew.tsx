@@ -2,10 +2,14 @@ import { useState } from "react";
 import KofiButton from "kofi-button";
 
 export const StyledKofiButton = () => {
+
+
   return (
-    <KofiButton color="#ff38b8" title="buy me a coffee!!!" kofiID="pokefm" />
-  )
-}
+    <div className="inline-block font-[PokemonXY]">
+      <KofiButton color="#991B1B" title="buy me a coffee!!!" kofiID="pokefm" />
+    </div>
+  );
+};
 
 export default function WhatsNew() {
   const [open, setOpen] = useState(false);
@@ -13,12 +17,13 @@ export default function WhatsNew() {
   return (
     <>
       <div className="text-center my-4">
-        <button
+        {/* <button
           onClick={() => setOpen(true)}
           className="px-4 py-2 text-white rounded-md hover:text-red-500 font-[PokemonXY] cursor-pointer"
         >
           whats new
-        </button>
+        </button> */}
+        <StyledKofiButton></StyledKofiButton>
 
       </div>
 
@@ -33,12 +38,10 @@ export default function WhatsNew() {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold mb-4">new features</h2>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>weekly / all time mode toggle</li>
-              <li>change trainer card colors</li>
-              <li>added save button</li>
+            <ul className="pl-5 space-y-2">
+              <li>weekly/all time mode toggle</li>
+              <li>added save/share buttons</li>
               <li>your all time artist now faints if you didnt listen to them in the last week</li>
-              <li>health bars now change according with plays</li>
             </ul>
             <button
               onClick={() => setOpen(false)}
