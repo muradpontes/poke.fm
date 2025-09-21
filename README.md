@@ -17,4 +17,4 @@ projeto em **next.js** e **tailwind css** que consome a api do **last.fm** para 
 [![vercel](https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
 ## deploy 🚀
-https://pokefm.vercel.app/
+https://pokefm.me/
