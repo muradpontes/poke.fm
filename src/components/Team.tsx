@@ -226,7 +226,7 @@ export default function Team({ username, data }: TeamProps) {
                 <select
                     value={period}
                     onChange={e => setPeriod(e.target.value as any)}
-                    className="px-4 py-2 text-base rounded-md cursor-pointer bg-gray-800 text-white border border-white font-[PokemonXY]"
+                    className="px-4 py-2 text-base rounded-md cursor-pointer bg-[#404040] text-white border border-white"
                 >
 
                     {periods.map(p => <option key={p} value={p}>{periodLabels[p]}</option>)}
@@ -236,7 +236,7 @@ export default function Team({ username, data }: TeamProps) {
                     <select
                         value={maxHpPeriod}
                         onChange={e => setMaxHpPeriod(e.target.value as any)}
-                        className="px-4 py-2 text-base rounded-md cursor-pointer bg-gray-800 text-white border border-white font-[PokemonXY]"
+                        className="px-4 py-2 text-base rounded-md cursor-pointer bg-[#404040] text-white border border-white"
                     >
 
                         {periods.slice(periods.indexOf(period) + 1).map(p => <option key={p} value={p}>{periodLabels[p]}</option>)}
@@ -247,7 +247,7 @@ export default function Team({ username, data }: TeamProps) {
                     <select
                         value={hpPeriod}
                         onChange={e => setHpPeriod(e.target.value as any)}
-                        className="px-4 py-2 text-base rounded-md cursor-pointer bg-gray-800 text-white border border-white font-[PokemonXY]"
+                        className="px-4 py-2 text-base rounded-md cursor-pointer bg-[#404040] text-white border border-white"
                     >
 
                         {periods.slice(0, periods.length - 1).map(p => <option key={p} value={p}>{periodLabels[p]}</option>)}

@@ -220,7 +220,7 @@ export default function Card({ username, data }: Props) {
         <select
           value={selectedPeriod}
           onChange={(e) => setSelectedPeriod(e.target.value)}
-          className="px-4 py-2 text-base mb-4 border border-white rounded-md cursor-pointer bg-gray-800 text-white font-[PokemonXY]"
+          className="px-4 py-2 text-base mb-4 border border-white rounded-md cursor-pointer bg-[#404040] text-white"
         >
           <option value="7day">7 days</option>
           <option value="1month">1 month</option>
@@ -231,19 +231,19 @@ export default function Card({ username, data }: Props) {
         </select>
         <button
           onClick={() => setUseAltCard(!useAltCard)}
-          className="px-4 py-2 text-base mb-4 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none cursor-pointer font-[PokemonXY]"
+          className="px-4 py-2 text-base mb-4 text-white bg-red-800 rounded-md hover:bg-red-500 focus:outline-none cursor-pointer "
         >
           {useAltCard ? 'color' : 'color'}
         </button>
         <button
           onClick={() => setUseRealName(!useRealName)}
           disabled={!realNameAvailable}
-          className={`px-4 py-2 text-base mb-4 text-white rounded-md focus:outline-none cursor-pointer font-[PokemonXY] ${
-            realNameAvailable ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-600 cursor-not-allowed'
-          }`}
+          className={`px-4 py-2 text-base mb-4 text-white rounded-md focus:outline-none cursor-pointer ${realNameAvailable ? 'bg-red-800 hover:bg-red-500' : 'bg-gray-600 cursor-not-allowed'
+            }`}
         >
-          real name
+          {useRealName ? 'username' : 'real name'}
         </button>
+
       </div>
 
       <canvas
